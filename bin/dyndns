@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+require 'yaml'
+require 'fileutils'
+require 'logger'
+require "dyndns"
+
+LOG = Logger.new($stdout)
+
+rpath = File.expand_path(File.dirname(__FILE__))
+Dir.chdir rpath
+
+config_path = File.expand_path "~/.dyndns.yml"
+
+if File.exist? config_path
+  config = YAML.load_file config_path
+  Dyndns::Updater.new(
+    token: config['api_token'],
+    domains: config['domains'],
+    sub_domains: config['sub_domains'],
+    logger: LOG
+  ).update_ips
+else
+  LOG.warn "No configuration exists @ #{config_path}: Creating file."
+  FileUtils.cp("../dyndns.yml", config_path)
+  system "open #{config_path}"
+end

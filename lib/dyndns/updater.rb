@@ -52,7 +52,7 @@ module Dyndns
     private
 
     def wan_ip
-      @ip ||= `curl -s ip.alexc.link`.chomp[/(\d+\.){3}\d+/]
+      @ip ||= `dig +short myip.opendns.com @resolver1.opendns.com`.chomp
     end
   end
 end

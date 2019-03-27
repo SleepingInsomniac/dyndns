@@ -1,26 +1,27 @@
 #!/usr/bin/env ruby
+lib = File.expand_path(File.join(__dir__, '..', 'lib'))
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'yaml'
 require 'fileutils'
 require 'logger'
-require "dyndns"
+require 'shellwords'
+require 'dyndns'
 
 LOG = Logger.new($stdout)
 
 rpath = File.expand_path(File.dirname(__FILE__))
 Dir.chdir rpath
 
-config_path = File.expand_path "~/.dyndns.yml"
+config_path = File.expand_path "~/.config/dyndns.yml"
 
 if File.exist? config_path
   config = YAML.load_file config_path
-  Dyndns::Updater.new(
-    token: config['api_token'],
-    domains: config['domains'],
-    sub_domains: config['sub_domains'],
-    logger: LOG
-  ).update_ips
+  Dyndns::Updater.new(**config, logger: LOG).update_ips
 else
   LOG.warn "No configuration exists @ #{config_path}: Creating file."
-  FileUtils.cp("../dyndns.yml", config_path)
-  system "open #{config_path}"
+  FileUtils.mkdir_p File.dirname(config_path)
+  FileUtils.cp("../config.example.yml", config_path)
+  editor = ENV['EDITOR'] || 'nano'
+  system "#{editor} #{Shellwords.shellescape(config_path)}"
 end

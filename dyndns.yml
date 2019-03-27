@@ -1,5 +1,0 @@
-api_token: your_digital_ocean_token_here
-domains:
-  - your_domains_here
-sub_domains:
-  - just_the_subdomain_text

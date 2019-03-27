@@ -7,7 +7,7 @@ describe Dyndns do
 end
 
 
-describe Dyndns::Checker do
+describe Dyndns::Updater do
   it "is cool" do
     expect("cool").to eq("cool")
   end

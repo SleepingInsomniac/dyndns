@@ -1,0 +1,4 @@
+:token: your_digital_ocean_token_here
+:domains:
+  example-domain1.com:
+    - example-subdomain1

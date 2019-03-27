@@ -4,14 +4,17 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'dyndns/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "dyndns"
+  spec.name          = "do-dyndns"
   spec.version       = Dyndns::VERSION
   spec.authors       = ["Alex Clink"]
-  spec.email         = ["alex@certedrive.com"]
+  spec.email         = ["alexclink@gmail.com"]
 
-  spec.summary       = "Update dns records on DigitalOcean Droplets"
-  spec.description   = "The summary is pretty much all there is to say."
-  spec.homepage      = "http://git.pixelfaucet.com/alex/dyndns"
+  spec.summary       = "Automatically update DNS records on DigitalOcean"
+  spec.description   = <<~DESC
+    Finds the wan IPv4 address of the server it's running on and
+    updates the corresponding DNS records on digital ocean.
+  DESC
+  spec.homepage      = "http://alexclink.com/gems/dyndns"
   spec.license       = "UNLICENSED"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -26,8 +29,8 @@ Gem::Specification.new do |spec|
     "lib/**/*",
     "bin/**/*",
     "README.md",
-    "dyndns.yml"
-  ].map {|g| Dir.glob(g)}.flatten
+    "config.example.yml"
+  ].map { |g| Dir.glob(g) }.flatten
   spec.bindir        = "bin"
   spec.executables   = ['dyndns']
   spec.require_paths = ["lib"]

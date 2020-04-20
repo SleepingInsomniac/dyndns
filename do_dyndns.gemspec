@@ -27,9 +27,9 @@ Gem::Specification.new do |spec|
   spec.executables   = ['do_dyndns']
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.13"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "bundler", "~> 2.1"
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "rspec", "~> 3.9"
   
-  spec.add_dependency "droplet_kit"
+  spec.add_dependency "droplet_kit", "~> 3.7.0"
 end

@@ -6,22 +6,23 @@ require 'yaml'
 require 'fileutils'
 require 'logger'
 require 'shellwords'
-require 'dyndns'
+require 'do_dyndns'
 
 LOG = Logger.new($stdout)
 
 rpath = File.expand_path(File.dirname(__FILE__))
 Dir.chdir rpath
 
-config_path = File.expand_path "~/.config/dyndns.yml"
+config_path = File.expand_path "~/.config/do-dyndns.yml"
 
 if File.exist? config_path
   config = YAML.load_file config_path
-  Dyndns::Updater.new(**config, logger: LOG).update_ips
+  DoDyndns::Updater.new(**config, logger: LOG).update_ips
 else
   LOG.warn "No configuration exists @ #{config_path}: Creating file."
   FileUtils.mkdir_p File.dirname(config_path)
   FileUtils.cp("../config.example.yml", config_path)
   editor = ENV['EDITOR'] || 'nano'
   system "#{editor} #{Shellwords.shellescape(config_path)}"
+  LOG.info "Config created."
 end

@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'dyndns/version'
+require 'do_dyndns/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "do-dyndns"
-  spec.version       = Dyndns::VERSION
+  spec.version       = DoDyndns::VERSION
   spec.authors       = ["Alex Clink"]
   spec.email         = ["alexclink@gmail.com"]
 
@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
     "config.example.yml"
   ].map { |g| Dir.glob(g) }.flatten
   spec.bindir        = "bin"
-  spec.executables   = ['dyndns']
+  spec.executables   = ['do_dyndns']
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.13"

@@ -1,4 +1,4 @@
-module Dyndns
+module DoDyndns
   class Updater
     require 'droplet_kit'
 
@@ -8,7 +8,7 @@ module Dyndns
       @api = DropletKit::Client.new(access_token: token)
     end
 
-    # Get the domains from DO's API and selecto only ones specified in the config
+    # Get the domains from DO's API and select only ones specified in the config
     def domains
       @api.domains
         .all
@@ -73,6 +73,7 @@ module Dyndns
 
     private
 
+    # Try all the commands until one of them works
     def resolve(commands)
       _ip = nil
       commands.each do |service|

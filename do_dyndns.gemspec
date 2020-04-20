@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
     Finds the wan IPv4 address of the server it's running on and
     updates the corresponding DNS records on digital ocean.
   DESC
-  spec.homepage      = "http://alexclink.com/gems/dyndns"
+  spec.homepage      = "https://github.com/SleepingInsomniac/dyndns"
   spec.license       = "MIT"
 
   spec.files = [

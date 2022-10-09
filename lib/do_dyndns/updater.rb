@@ -2,9 +2,14 @@ module DoDyndns
   class Updater
     require 'droplet_kit'
 
-    def initialize(token:, domains:, logger: Logger.new($stdout))
+    IPV4_RE = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/m
+    IPV6_RE = /(?:\:{,2}[A-Z\d]{1,4}\:{,2}){1,8}/im
+
+    def initialize(token:, domains:, ipv4_commands:, ipv6_commands:, logger: Logger.new($stdout))
       @logger = logger
       @domains = domains
+      @ipv4_commands = ipv4_commands
+      @ipv6_commands = ipv6_commands
       @api = DropletKit::Client.new(access_token: token)
     end
 
@@ -57,30 +62,24 @@ module DoDyndns
     end
 
     def wan_ipv4
-      resolve([
-        "dig -4 @resolver1.opendns.com ANY myip.opendns.com +short",
-        "dig -4 @ns1-1.akamaitech.net ANY whoami.akamai.net +short",
-        "dig -4 @ns1.google.com ANY o-o.myaddr.l.google.com +short"
-      ])
+      resolve(@ipv4_commands, regex: IPV4_RE)
     end
 
     def wan_ipv6
-      resolve([
-        "dig -6 @resolver1.opendns.com ANY myip.opendns.com +short",
-        "dig -6 @ns1.google.com ANY o-o.myaddr.l.google.com +short"
-      ])
+      resolve(@ipv6_commands, regex: IPV6_RE)
     end
 
     private
 
     # Try all the commands until one of them works
-    def resolve(commands)
+    def resolve(commands, regex:)
       _ip = nil
-      commands.each do |service|
-        _ip = `#{service}`.chomp.gsub(/[^a-z0-9\:\.]/i, '')
-        _ip = _ip and break unless _ip.empty?
+      commands.each do |command|
+        result = `#{command}`
+        _ip = result[regex]
+        break if _ip
       end
-      _ip.empty? ? nil : _ip
+      _ip
     end
   end
 end

@@ -1,4 +1,13 @@
 :token: your_digital_ocean_token_here
+
 :domains:
   example-domain1.com:
     - example-subdomain1
+
+:ipv4_commands:
+  - "dig -4 @ns1-1.akamaitech.net ANY whoami.akamai.net +short"
+  - "dig -4 @ns1.google.com ANY o-o.myaddr.l.google.com +short"
+
+:ipv6_commands:
+  - "dig -6 @resolver1.opendns.com ANY myip.opendns.com +short"
+  - "dig -6 @ns1.google.com ANY o-o.myaddr.l.google.com +short"

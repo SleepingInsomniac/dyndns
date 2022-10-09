@@ -17,6 +17,20 @@ config_path = File.expand_path "~/.config/do-dyndns.yml"
 
 if File.exist? config_path
   config = YAML.load_file config_path
+
+  key_missing = false
+  %i[token domains ipv4_commands ipv6_commands].each do |key|
+    unless config.key?(key)
+      key_missing = true
+      $stderr.puts "missing configuration: `:#{key}`"
+    end
+  end
+
+  if key_missing
+    $stderr.puts "\nExample configuration:\n\n```yml\n#{File.read("../config.example.yml")}\n```"
+    exit 1
+  end
+
   DoDyndns::Updater.new(**config, logger: LOG).update_ips
 else
   LOG.warn "No configuration exists @ #{config_path}: Creating file."
